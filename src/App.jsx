@@ -5,30 +5,31 @@ import './App.css'
 
 
 function Slider(props){
-  const [value, setValue] = useState(0);
-
   return (
     <>
       <label className="slider">
         <span>{props.children}</span>
-        <input type="range" min="1" max="99"/>
-        <span>Value</span>
+        <input type="range" min={props.min ?? 1} max={props.max ?? 250} onInput={(v)=>props.change(v.target.value)}/>
+        <span>{props.displayValue}</span>
       </label>
     </>
   );
 }
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [numerator, setNumerator] = useState(5)
+  const [denominator, setDenominator] = useState(9)
+  const [spacing, setSpacing] = useState(250)
+  const [speed, setSpeed] = useState(10)
 
   return (
     <>
     <div className="container">
-      <P5Sketch numerator="5" denominator="7" spacingParam="250" speedParam="10"/>
-      <Slider>Numerator</Slider>
-      <Slider>Denominator</Slider>
-      <Slider>Spacing</Slider>
-      <Slider>Speed</Slider>
+      <P5Sketch numerator={numerator} denominator={denominator} spacingParam={spacing} speedParam={speed}/>
+      <Slider change={(v)=>setNumerator(v)} displayValue={numerator} max="99">Numerator</Slider>
+      <Slider change={(v)=>setDenominator(v)} displayValue={denominator} max="99">Denominator</Slider>
+      <Slider change={(v)=>setSpacing(v)} displayValue={spacing} min={0} max="999">Spacing</Slider>
+      <Slider change={(v)=>setSpeed(v)} displayValue={speed} min={0} max="20">Speed</Slider>
     </div>
     </>
   )
