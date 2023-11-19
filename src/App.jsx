@@ -48,8 +48,8 @@ function App() {
           <Slider change={(v) => setDenominator(v)} displayValue={denominator} max="99">Denominator</Slider>
           <Slider change={(v) => setSpacing(v)} displayValue={spacing} min={0} max="999">Spacing</Slider>
           <Slider change={(v) => setSpeed(v)} displayValue={speed} min={0} max="20">Speed</Slider>
-          <ColorPicker change={(v) => setBG(v)} initialValue={arrayToHex(background)}>Background</ColorPicker>
-          <ColorPicker change={(v) => setFG(v)} initialValue={arrayToHex(foreground)}>Foreground</ColorPicker>
+          {/* <ColorPicker change={(v) => setBG(v)} initialValue={arrayToHex(background)}>Background</ColorPicker> */}
+          <ColorPicker change={(v) => setFG(v)} initialValue={arrayToHex(foreground)}>Color</ColorPicker>
           <button className="bloom-button">Bloom!</button>
         </div>
       </div>

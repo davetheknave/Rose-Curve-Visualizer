@@ -10,7 +10,6 @@
 .visualizer canvas {
     max-width: 50vmin !important;
     max-height: 50vmin !important;
-    background-color: rgb(20, 20, 100);
 }
 
 /* Parameters */
