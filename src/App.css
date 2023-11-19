@@ -1,22 +1,45 @@
-.container {
-  position: relative;
-  /* left: 50%; */
-  /* top: 50%; */
-  /* transform: translate(-50%, 50%); */
-  background-color: rgb(20,20,100);
-  /* width: 50vw; */
-  height: 50vh;
-  height: 800px;
-
+.visualizer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
 }
 
-.sketch {
-  /* position: absolute; */
-  /* left: 50%; */
-  /* top: 50%; */
-  /* transform: translate(-50%, -50%); */
-  background-color: rgb(20,20,100);
+.visualizer canvas {
+    max-width: 50vmin !important;
+    max-height: 50vmin !important;
+    background-color: rgb(20, 20, 100);
 }
-.slider {
-  display: flex;
+
+/* Parameters */
+
+.visualizer .parameters {
+    width: 50%;
+}
+
+.visualizer-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.slider .slider-label {
+    width: 25%;
+    text-align: left;
+}
+
+.slider .slider-value {
+    width: 25%;
+    text-align: right;
+}
+
+.slider input {
+    width: 50%;
+}
+
+.bloom-button {
+    width: 100%;
+    margin-top: 20px;
 }
