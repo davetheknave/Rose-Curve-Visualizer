@@ -10,9 +10,9 @@ function Slider(props) {
   return (
     <>
       <label className="slider visualizer-input">
-        <span className="slider-label">{props.children}</span>
+        <span className="input-label">{props.children}</span>
         <input type="range" min={props.min ?? 1} max={props.max ?? 250} onInput={(v) => props.change(v.target.value)} />
-        <span className="slider-value">{props.displayValue}</span>
+        <span className="input-value">{props.displayValue}</span>
       </label>
     </>
   );
@@ -31,9 +31,10 @@ function ColorPicker(props) {
 function App() {
   const [numerator, setNumerator] = useState(5)
   const [denominator, setDenominator] = useState(7)
+  const [dotmode, setDotmode] = useState(false)
   const [spacing, setSpacing] = useState(100)
   const [speed, setSpeed] = useState(5)
-  const [background, setBG] = useState([18, 18, 18])
+  const [background, setBG] = useState([220,220,220])
   const [foreground, setFG] = useState([200, 200, 250])
 
   return (
@@ -42,10 +43,17 @@ function App() {
         Rose curve visualizer
       </h1>
       <div className="visualizer">
-        <P5Sketch numerator={numerator} denominator={denominator} spacingParam={spacing} speedParam={speed} foreground={foreground} background={background} radius={9} count={10}/>
+        <P5Sketch numerator={numerator} denominator={denominator} spacingParam={spacing} speedParam={speed} foreground={foreground} background={background} dotmode={dotmode?"true":"false"} radius={9} count={10}/>
         <div className="parameters">
           <Slider change={(v) => setNumerator(v)} displayValue={numerator} max="99">Numerator</Slider>
           <Slider change={(v) => setDenominator(v)} displayValue={denominator} max="99">Denominator</Slider>
+
+          <label className="visualizer-input">
+            <span className="input-label">Dot mode</span>
+          <input type="checkbox" onChange={(v) => setDotmode(v.target.checked)}/>
+            <span className="input-value"></span>
+          </label>
+          
           <Slider change={(v) => setSpacing(v)} displayValue={spacing} min={0} max="999">Spacing</Slider>
           <Slider change={(v) => setSpeed(v)} displayValue={speed} min={0} max="20">Speed</Slider>
           <ColorPicker change={(v) => setFG(v)} initialValue={arrayToHex(foreground)}>Color</ColorPicker>

@@ -25,12 +25,12 @@
     align-items: center;
 }
 
-.slider .slider-label {
+.visualizer-input .input-label {
     width: 25%;
     text-align: left;
 }
 
-.slider .slider-value {
+.visualizer-input .input-value {
     width: 25%;
     text-align: right;
 }
