@@ -35,8 +35,8 @@ function P5Sketch(props) {
         let space = 0;
         let random = RNG(seed);
         while ((space + bgSize) < padH) {
-            backPos.push([padH - space - bgSize, random() * fgSize / 2]);
-            backPos.push([padH + fgSize + space, random() * fgSize / 2]);
+            backPos.push([padH - space - bgSize, random() * fgSize / 3]);
+            backPos.push([padH + fgSize + space, random() * fgSize / 3]);
             space += bgSize;
         }
         p5.setup = () => {
@@ -53,6 +53,9 @@ function P5Sketch(props) {
                 stemBuffer.ellipse(pos[0] + bgSize / 2, pos[1] + bgSize / 2, 5, 5);
                 let offset = 0;
                 let size = 2;
+                let counter = 0;
+                let counterChanged = false;
+                let leafLength = 22;
                 for (let i = pos[1] + bgSize / 2; i < fgSize; i += size * 4 + 1) {
                     stemBuffer.rectMode(p5.CENTER);
                     let x = pos[0] + bgSize / 2 + offset;
@@ -63,6 +66,31 @@ function P5Sketch(props) {
                     else {
                         stemBuffer.triangle(x, y - size, x + size, y + size, x - size, y + size);
                     }
+                    if(random() > 0.8){
+                        counter++;
+                        counterChanged = true
+                    }
+                    if (i > (pos[1] + bgSize - 20) && counterChanged) {
+                        let length = random() * leafLength * (counter % 2 == 0 ? 1:-1);
+                        if (length < 0) {
+                            length -= leafLength;
+                        }
+                        else {
+                            length += leafLength;
+                        }
+                        let height = Math.abs(length) * 0.5;
+                        stemBuffer.noFill();
+                        stemBuffer.strokeWeight(2)
+                        stemBuffer.quad(
+                            x + length * 0.3, y,
+                            x + length * 0.8, y + height,
+                            x + length * 2, y + height * 0.7,
+                            x + length, y - height * 0.5
+                        );
+                        stemBuffer.strokeWeight(1);
+                        stemBuffer.fill(props.background);
+                    }
+                    counterChanged = false;
                     offset += random() * 14 - 7;
                 }
             }
