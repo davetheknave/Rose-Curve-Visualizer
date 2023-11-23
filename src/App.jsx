@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import P5Sketch from './rosecurve.jsx'
 import './App.css'
 
@@ -47,6 +47,14 @@ function App() {
   const [speed, setSpeed] = useState(5)
   const [background, setBG] = useState([220, 220, 220])
   const [foreground, setFG] = useState([200, 200, 250])
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResizeWindow = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResizeWindow);
+    return () => {
+      window.removeEventListener("resize", handleResizeWindow);
+    }
+  });
 
   return (
     <>
@@ -54,7 +62,7 @@ function App() {
         Rose curves
       </h1>
       <div className="visualizer">
-        <P5Sketch numerator={numerator} denominator={denominator} spacingParam={spacing} speedParam={speed} foreground={foreground} background={background} radius={9} count={10} />
+        <P5Sketch numerator={numerator} denominator={denominator} spacingParam={spacing} speedParam={speed} foreground={foreground} background={background} radius={9} count={10} width={width}/>
         <div className="parameters">
           <div className="equation">
             <div className="math">r = cos (</div>

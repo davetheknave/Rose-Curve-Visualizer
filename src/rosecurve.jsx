@@ -19,34 +19,33 @@ const seed = Math.ceil(Math.random() * 100000);
 function P5Sketch(props) {
     const [spacing, setSpacing] = useState(0);
     const [angularSpeed, setSpeed] = useState(0);
-    const count = props.count ?? 10;
     const radius = props.radius ?? 8;
-    const a = 175;
 
     function sketch(p5) {
         var buffer;
         var canvas;
         var stemBuffer;
         const fgSize = 400;
-        const padH = 400;
-        const bgSize = 200;
+        const padH = (props.width - fgSize) / 2;
+        const bgSize = fgSize / 2;
         const backPos = [];
+        const a = fgSize / 2.5;
 
         // Fill the surrounding space with flowers
         let space = 0;
         let random = RNG(seed);
-        while (space < padH / 2) {
-            backPos.push([0 + space, random() * fgSize / 2]);
-            backPos.push([fgSize + padH - space - bgSize, random() * fgSize / 2]);
+        while ((space + bgSize) < padH) {
+            backPos.push([padH - space - bgSize, random() * fgSize / 2]);
+            backPos.push([padH + fgSize + space, random() * fgSize / 2]);
             space += bgSize;
         }
         p5.setup = () => {
-            canvas = p5.createCanvas(fgSize + padH, fgSize, p5.P2D);
+            canvas = p5.createCanvas(fgSize + padH * 2, fgSize, p5.P2D);
             buffer = p5.createGraphics(fgSize, fgSize, p5.P2D);
             buffer.translate(fgSize / 2, fgSize / 2);
             setSpacing(Number(props.spacingParam));
             setSpeed(props.speedParam * 1 / p5.max(1, props.numerator - props.denominator));
-            stemBuffer = p5.createGraphics(fgSize + padH, fgSize, p5.P2D);
+            stemBuffer = p5.createGraphics(fgSize + padH * 2, fgSize, p5.P2D);
             stemBuffer.fill(props.background);
             stemBuffer.stroke(props.background);
             // Draw stems
@@ -54,7 +53,7 @@ function P5Sketch(props) {
                 stemBuffer.ellipse(pos[0] + bgSize / 2, pos[1] + bgSize / 2, 5, 5);
                 let offset = 0;
                 let size = 2;
-                for (let i = pos[1] + bgSize / 2; i < bgSize * 2; i += size * 4 + 1) {
+                for (let i = pos[1] + bgSize / 2; i < fgSize; i += size * 4 + 1) {
                     stemBuffer.rectMode(p5.CENTER);
                     let x = pos[0] + bgSize / 2 + offset;
                     let y = i;
@@ -89,7 +88,7 @@ function P5Sketch(props) {
                 let angle = i * .5 + p5.frameCount * angularSpeed;
                 angle = angle * p5.PI / 180;
                 buffer.ellipse(x(angle), y(angle), radius, radius);
-                p5.ellipse(x(angle) + bgSize + padH / 2, y(angle) + bgSize, radius, radius);
+                p5.ellipse(x(angle) + padH + fgSize / 2, y(angle) + fgSize / 2, radius, radius);
             }
             buffer.width = bgSize;
             buffer.height = bgSize;

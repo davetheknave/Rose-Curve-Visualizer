@@ -8,9 +8,10 @@
 }
 
 .visualizer canvas {
-    max-width: 800px !important;
+    /* max-width: 800px !important; */
     max-height: 400px !important;
     /* background: firebrick; */
+    border-bottom: 2px solid rgb(220,220,220);
 }
 
 /* Parameters */
@@ -51,7 +52,7 @@
 }
 
 .equation .math {
-    font-size: 10vw;
+    font-size: min(7em, 10vw);
     font-style: italic;
 }
 
