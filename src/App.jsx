@@ -11,18 +11,30 @@ function Slider(props) {
     <>
       <label className="slider visualizer-input">
         <span className="input-label">{props.children}</span>
-        <input type="range" min={props.min ?? 1} max={props.max ?? 250} onInput={(v) => props.change(v.target.value)} />
+        <input type="range" min={props.min ?? 1} max={props.max ?? 250} onInput={(v) => props.change(v.target.value)} value={props.default} />
         <span className="input-value">{props.displayValue}</span>
       </label>
     </>
   );
+}
+function Number(props) {
+  return (
+    <>
+      <input type="number" min={props.min ?? 1} max={props.max ?? 250} onInput={(v) => props.change(v.target.value)} value={props.default} />
+    </>
+  );
+}
+function FractionBar(props) {
+  return (
+    <div className="fraction-bar" />
+  )
 }
 function ColorPicker(props) {
   return (
     <>
       <label className="colorPicker visualizer-input">
         <span>{props.children}</span>
-        <input type="color" onInput={(v) => props.change(v.target.value)} value={props.initialValue} />
+        <input type="color" onInput={(v) => props.change(v.target.value)} />
       </label>
     </>
   )
@@ -31,31 +43,32 @@ function ColorPicker(props) {
 function App() {
   const [numerator, setNumerator] = useState(5)
   const [denominator, setDenominator] = useState(7)
-  const [dotmode, setDotmode] = useState(false)
-  const [spacing, setSpacing] = useState(100)
+  const [spacing, setSpacing] = useState(1)
   const [speed, setSpeed] = useState(5)
-  const [background, setBG] = useState([220,220,220])
+  const [background, setBG] = useState([220, 220, 220])
   const [foreground, setFG] = useState([200, 200, 250])
 
   return (
     <>
       <h1 id="title">
-        Rose curve visualizer
+        Rose curves
       </h1>
       <div className="visualizer">
-        <P5Sketch numerator={numerator} denominator={denominator} spacingParam={spacing} speedParam={speed} foreground={foreground} background={background} dotmode={dotmode?"true":"false"} radius={9} count={10}/>
+        <P5Sketch numerator={numerator} denominator={denominator} spacingParam={spacing} speedParam={speed} foreground={foreground} background={background} radius={9} count={10} />
         <div className="parameters">
-          <Slider change={(v) => setNumerator(v)} displayValue={numerator} max="99">Numerator</Slider>
-          <Slider change={(v) => setDenominator(v)} displayValue={denominator} max="99">Denominator</Slider>
-
-          <label className="visualizer-input">
-            <span className="input-label">Dot mode</span>
-          <input type="checkbox" onChange={(v) => setDotmode(v.target.checked)}/>
-            <span className="input-value"></span>
-          </label>
-          
-          <Slider change={(v) => setSpacing(v)} displayValue={spacing} min={0} max="999">Spacing</Slider>
-          <Slider change={(v) => setSpeed(v)} displayValue={speed} min={0} max="20">Speed</Slider>
+          <div className="equation">
+            <div className="math">r = cos (</div>
+            <div className="fraction">
+              <Number change={(v) => setNumerator(v)} displayValue={numerator} max="99" default={numerator}></Number>
+              <FractionBar />
+              <Number change={(v) => setDenominator(v)} displayValue={denominator} max="99" default={denominator}></Number>
+            </div>
+            <div className="math">
+              &theta;)
+            </div>
+          </div>
+          <Slider change={(v) => setSpacing(v)} displayValue={spacing} min={1} max={10} default={spacing}>Spacing</Slider>
+          <Slider change={(v) => setSpeed(v)} displayValue={speed} min={0} max={10} default={speed}>Speed</Slider>
           <ColorPicker change={(v) => setFG(v)} initialValue={arrayToHex(foreground)}>Color</ColorPicker>
         </div>
       </div>
