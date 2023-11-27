@@ -58,6 +58,7 @@ function App() {
 
   return (
     <>
+      <div id="bg"/>
       <h1 id="title">
         Rose curves
       </h1>
