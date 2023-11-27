@@ -15,11 +15,16 @@ function RNG(seed) {
         return Number("." + v.toString());
     }
 }
+function gcd(a, b) {
+    return b ? gcd(b, a % b) : a;
+};
 const seed = Math.ceil(Math.random() * 100000);
 function P5Sketch(props) {
     const [spacing, setSpacing] = useState(0);
     const [angularSpeed, setSpeed] = useState(0);
-    const radius = props.radius ?? 8;
+    const radius = Math.max(2,
+        (props.radius ?? 8) / Math.max(props.denominator, props.numerator)
+    );
 
     function sketch(p5) {
         var buffer;
@@ -30,6 +35,7 @@ function P5Sketch(props) {
         const bgSize = fgSize / 2;
         const backPos = [];
         const a = fgSize / 2.5;
+        const d = gcd(props.numerator, props.denominator);
 
         // Fill the surrounding space with flowers
         let space = 0;
@@ -46,16 +52,16 @@ function P5Sketch(props) {
             setSpacing(Number(props.spacingParam));
             setSpeed(props.speedParam * 1 / p5.max(1, props.numerator - props.denominator));
             stemBuffer = p5.createGraphics(fgSize + padH * 2, fgSize, p5.P2D);
+            // Draw stems
             stemBuffer.fill(props.background);
             stemBuffer.stroke(props.background);
-            // Draw stems
             for (let pos of backPos) {
-                stemBuffer.ellipse(pos[0] + bgSize / 2, pos[1] + bgSize / 2, 5, 5);
+                stemBuffer.circle(pos[0] + bgSize / 2, pos[1] + bgSize / 2, 5);
                 let offset = 0;
                 let size = 2;
                 let counter = 0;
                 let counterChanged = false;
-                let leafLength = 22;
+                let leafLength = 24;
                 for (let i = pos[1] + bgSize / 2; i < fgSize; i += size * 4 + 1) {
                     stemBuffer.rectMode(p5.CENTER);
                     let x = pos[0] + bgSize / 2 + offset;
@@ -66,12 +72,12 @@ function P5Sketch(props) {
                     else {
                         stemBuffer.triangle(x, y - size, x + size, y + size, x - size, y + size);
                     }
-                    if(random() > 0.8){
+                    if (random() > 0.8) {
                         counter++;
                         counterChanged = true
                     }
                     if (i > (pos[1] + bgSize - 20) && counterChanged) {
-                        let length = random() * leafLength * (counter % 2 == 0 ? 1:-1);
+                        let length = random() * leafLength * (counter % 2 == 0 ? 1 : -1);
                         if (length < 0) {
                             length -= leafLength;
                         }
@@ -99,25 +105,59 @@ function P5Sketch(props) {
             buffer.width = fgSize;
             buffer.height = fgSize;
             function x(t) {
-                return a * p5.cos(props.numerator / props.denominator * t) * p5.cos(t);
+                return a * p5.sin(props.numerator / props.denominator * t) * p5.cos(t);
             };
             function y(t) {
-                return a * p5.cos(props.numerator / props.denominator * t) * p5.sin(t);
+                return a * p5.sin(props.numerator / props.denominator * t) * p5.sin(t);
             };
 
             buffer.clear();
             p5.clear();
-            buffer.noStroke();
-            buffer.ellipseMode(p5.CENTER);
-            buffer.fill(props.foreground);
-            p5.fill(props.foreground);
-            p5.noStroke();
-            for (var i = 0; i < 360; i += (spacing * spacing)) {
-                let angle = i * .5 + p5.frameCount * angularSpeed;
-                angle = angle * p5.PI / 180;
-                buffer.ellipse(x(angle), y(angle), radius, radius);
-                p5.ellipse(x(angle) + padH + fgSize / 2, y(angle) + fgSize / 2, radius, radius);
+            buffer.ellipseMode(p5.CORNER);
+            p5.ellipseMode(p5.CORNER);
+            buffer.noFill();
+            p5.noFill();
+            buffer.stroke(props.foreground);
+            p5.stroke(props.foreground);
+            buffer.strokeWeight(radius);
+            p5.strokeWeight(radius);
+            const cycle = 360 * props.denominator / d;
+            let s;
+            if(props.solid){
+                s = spacing * spacing;
             }
+            else {
+                s = 1;
+            }
+            var before = performance.now();
+            buffer.beginShape();
+            function offset(time) {
+                return time * 0.5 * angularSpeed / (props.denominator / d) * (props.denominator / d)
+            }
+            let anglei = (offset(p5.frameCount) - s) * p5.PI / 180
+            var prevLine = [x(anglei), y(anglei)];
+            let c = 0;
+            for (var i = 0; i < cycle; i += s) {
+                let angle = i + offset(p5.frameCount);
+                angle = angle * p5.PI / 180;
+                let xPos = x(angle);
+                let yPos = y(angle);
+                let halfHeight = fgSize * .5;
+                if(props.solid){
+                    buffer.vertex(xPos, yPos);
+                }
+                else {
+                    if (Math.floor(c / (spacing*spacing/4)) % 2 == 0) {
+                        buffer.line(prevLine[0], prevLine[1], xPos, yPos);
+                    }
+                    prevLine = [xPos, yPos];
+                }
+                c++;
+            }
+            buffer.endShape(buffer.CLOSE);
+            var after = performance.now();
+            console.log(after - before);
+            p5.image(buffer, padH, 0)
             buffer.width = bgSize;
             buffer.height = bgSize;
             p5.image(stemBuffer, 0, 0);

@@ -48,6 +48,7 @@ function App() {
   const [background, setBG] = useState([220, 220, 220])
   const [foreground, setFG] = useState([200, 200, 250])
   const [width, setWidth] = useState(window.innerWidth);
+  const [solid, setSolid] = useState(true);
   useEffect(() => {
     const handleResizeWindow = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleResizeWindow);
@@ -63,19 +64,23 @@ function App() {
         Rose curves
       </h1>
       <div className="visualizer">
-        <P5Sketch numerator={numerator} denominator={denominator} spacingParam={spacing} speedParam={speed} foreground={foreground} background={background} radius={9} count={10} width={width}/>
+        <P5Sketch numerator={numerator} denominator={denominator} spacingParam={spacing} speedParam={speed} foreground={foreground} background={background} radius={9} count={10} width={width} solid={solid}/>
         <div className="parameters">
           <div className="equation">
-            <div className="math">r = cos (</div>
+            <div className="math">r = sin (</div>
             <div className="fraction">
-              <Number change={(v) => setNumerator(v)} displayValue={numerator} max="99" default={numerator}></Number>
+              <Number change={(v) => setNumerator(v)} displayValue={numerator} max="25" default={numerator}></Number>
               <FractionBar />
-              <Number change={(v) => setDenominator(v)} displayValue={denominator} max="99" default={denominator}></Number>
+              <Number change={(v) => setDenominator(v)} displayValue={denominator} max="25" default={denominator}></Number>
             </div>
             <div className="math">
               &theta;)
             </div>
           </div>
+          <label className="visualizer-input">
+            <span className="input-label">Solid</span>
+            <input type="checkbox" checked={solid} onChange={(e)=>setSolid(!solid)}/>
+          </label>
           <Slider change={(v) => setSpacing(v)} displayValue={spacing} min={1} max={10} default={spacing}>Spacing</Slider>
           <Slider change={(v) => setSpeed(v)} displayValue={speed} min={0} max={10} default={speed}>Speed</Slider>
           <ColorPicker change={(v) => setFG(v)} initialValue={arrayToHex(foreground)}>Color</ColorPicker>
