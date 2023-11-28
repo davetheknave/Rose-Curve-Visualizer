@@ -1,27 +1,22 @@
-import React, { useState } from 'react';
 import { ReactP5Wrapper } from '@p5-wrapper/react';
 import * as MathD from './utility.jsx';
 
 const seed = Math.ceil(Math.random() * 100000);
 function P5Sketch(props) {
-    const [angularSpeed, setSpeed] = useState(0);
-
     function sketch(p5) {
-        var canvas;
-        var roseBuffer;
-        var stemBuffer;
+        let canvas;
+        let roseBuffer;
+        let stemBuffer;
         let random = MathD.RNG(seed);
 
         const height = 400;
         const miniSize = height / 2;
         const pad = (props.width - height) / 2;
         const miniRoses = [];
-        const gcd = MathD.gcd(props.numerator, props.denominator);
-        const spacing = Math.max(11 - props.quality, 1);
-        const radius = Math.max(
-            2,
-            (props.radius ?? 8) / Math.max(props.denominator, props.numerator)
-        );
+        let gcd;
+        let radius;
+        let lastDenominator;
+        let lastNumerator;
 
         // Fill the surrounding space with flowers
         let space = 0;
@@ -35,7 +30,6 @@ function P5Sketch(props) {
             roseBuffer = p5.createGraphics(height, height, p5.P2D);
             roseBuffer.translate(height / 2, height / 2);
             stemBuffer = p5.createGraphics(height + pad * 2, height, p5.P2D);
-            setSpeed(props.speed * 1 / p5.max(1, props.numerator - props.denominator));
 
             // Draw stems
             stemBuffer.fill(props.background);
@@ -87,27 +81,38 @@ function P5Sketch(props) {
             }
         }
         p5.draw = () => {
+            // Check if values have changed
+            if(lastNumerator != props.numerator.current || lastDenominator != props.denominator.current){
+                gcd = MathD.gcd(props.numerator.current, props.denominator.current);
+                radius = Math.max(
+                    2,
+                    (props.radius ?? 8) / Math.max(props.denominator.current, props.numerator.current)
+                );
+                lastNumerator = props.numerator.current;
+                lastDenominator = props.denominator.current;
+            }
+            const spacing = Math.max(11 - props.quality.current, 1);
             roseBuffer.width = height;
             roseBuffer.height = height;
             function x(t) {
-                return -height / 2.5 * p5.sin(props.numerator / props.denominator * t) * p5.cos(t);
+                return -height / 2.5 * p5.sin(props.numerator.current / props.denominator.current * t) * p5.cos(t);
             };
             function y(t) {
-                return -height / 2.5 * p5.sin(props.numerator / props.denominator * t) * p5.sin(t);
+                return -height / 2.5 * p5.sin(props.numerator.current / props.denominator.current * t) * p5.sin(t);
             };
 
             roseBuffer.clear();
             p5.clear();
-            roseBuffer.stroke(props.foreground);
-            p5.stroke(props.foreground);
+            roseBuffer.stroke(props.foreground.current);
+            p5.stroke(props.foreground.current);
             roseBuffer.noFill();
             p5.noFill();
             roseBuffer.strokeWeight(radius);
             p5.strokeWeight(radius);
 
-            const cycle = 360 * props.denominator / gcd;
+            const cycle = 360 * props.denominator.current / gcd;
             let step;
-            if (props.solid) {
+            if (props.polygon.current) {
                 step = spacing * spacing;
             }
             else {
@@ -115,7 +120,7 @@ function P5Sketch(props) {
             }
             roseBuffer.beginShape();
             function offset(time) {
-                return time * 0.5 * angularSpeed / (props.denominator / gcd) * (props.denominator / gcd)
+                return time * 0.5 * (props.speed.current * 1 / p5.max(1, props.numerator.current - props.denominator.current)) / (props.denominator.current / gcd) * (props.denominator.current / gcd)
             }
             let anglei = (offset(p5.frameCount) - step) * p5.PI / 180
             var prevLinePos = [x(anglei), y(anglei)];
@@ -124,7 +129,7 @@ function P5Sketch(props) {
                 let angle = (s + offset(p5.frameCount)) * p5.PI / 180;
                 let xPos = x(angle);
                 let yPos = y(angle);
-                if (props.solid) {
+                if (props.polygon.current) {
                     roseBuffer.vertex(xPos, yPos);
                 }
                 else {
