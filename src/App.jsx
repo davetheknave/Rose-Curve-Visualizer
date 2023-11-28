@@ -33,7 +33,7 @@ function App() {
 
         <div className="parameters">
           <div className="equation">
-            <div className="math">r = sin (</div>
+            <div className="math">r = -sin (</div>
             <div className="fraction">
               <Number change={(v) => setNumerator(MathD.clamp(v, 1, 25))} displayValue={numerator} max="25" default={numerator} />
               <div className="fraction-bar" />

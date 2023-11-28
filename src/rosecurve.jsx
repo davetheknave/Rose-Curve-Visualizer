@@ -89,10 +89,10 @@ function P5Sketch(props) {
             roseBuffer.width = height;
             roseBuffer.height = height;
             function x(t) {
-                return height/2.5 * p5.sin(props.numerator / props.denominator * t) * p5.cos(t);
+                return -height/2.5 * p5.sin(props.numerator / props.denominator * t) * p5.cos(t);
             };
             function y(t) {
-                return height/2.5 * p5.sin(props.numerator / props.denominator * t) * p5.sin(t);
+                return -height/2.5 * p5.sin(props.numerator / props.denominator * t) * p5.sin(t);
             };
 
             roseBuffer.clear();
