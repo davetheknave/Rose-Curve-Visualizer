@@ -11,12 +11,13 @@ function P5Sketch(props) {
         var roseBuffer;
         var stemBuffer;
         let random = MathD.RNG(seed);
-        
+
         const height = 400;
         const miniSize = height / 2;
         const pad = (props.width - height) / 2;
         const miniRoses = [];
         const gcd = MathD.gcd(props.numerator, props.denominator);
+        const spacing = Math.max(11 - props.quality, 1);
         const radius = Math.max(
             2,
             (props.radius ?? 8) / Math.max(props.denominator, props.numerator)
@@ -35,7 +36,7 @@ function P5Sketch(props) {
             roseBuffer.translate(height / 2, height / 2);
             stemBuffer = p5.createGraphics(height + pad * 2, height, p5.P2D);
             setSpeed(props.speed * 1 / p5.max(1, props.numerator - props.denominator));
-            
+
             // Draw stems
             stemBuffer.fill(props.background);
             stemBuffer.stroke(props.background);
@@ -89,10 +90,10 @@ function P5Sketch(props) {
             roseBuffer.width = height;
             roseBuffer.height = height;
             function x(t) {
-                return -height/2.5 * p5.sin(props.numerator / props.denominator * t) * p5.cos(t);
+                return -height / 2.5 * p5.sin(props.numerator / props.denominator * t) * p5.cos(t);
             };
             function y(t) {
-                return -height/2.5 * p5.sin(props.numerator / props.denominator * t) * p5.sin(t);
+                return -height / 2.5 * p5.sin(props.numerator / props.denominator * t) * p5.sin(t);
             };
 
             roseBuffer.clear();
@@ -107,7 +108,7 @@ function P5Sketch(props) {
             const cycle = 360 * props.denominator / gcd;
             let step;
             if (props.solid) {
-                step = props.spacing * props.spacing;
+                step = spacing * spacing;
             }
             else {
                 step = 1;
@@ -127,7 +128,7 @@ function P5Sketch(props) {
                     roseBuffer.vertex(xPos, yPos);
                 }
                 else {
-                    if (Math.floor(i / (props.spacing * props.spacing / 4)) % 2 == 0) {
+                    if (Math.floor(i / (spacing * spacing / 4)) % 2 == 0) {
                         roseBuffer.line(prevLinePos[0], prevLinePos[1], xPos, yPos);
                     }
                     prevLinePos = [xPos, yPos];
@@ -138,7 +139,7 @@ function P5Sketch(props) {
             p5.image(roseBuffer, pad, 0)
 
             p5.image(stemBuffer, 0, 0);
-            
+
             roseBuffer.width = miniSize;
             roseBuffer.height = miniSize;
             for (let pos of miniRoses) {

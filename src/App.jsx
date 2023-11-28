@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react'
 import P5Sketch from './rosecurve.jsx'
-import { Slider, Number, ColorPicker } from './widgets.jsx';
+import { Slider, Number, ColorPicker, Toggle } from './widgets.jsx';
 import * as MathD from './utility.jsx';
 import './App.css'
 
 function App() {
-  const [numerator, setNumerator] = useState(5)
-  const [denominator, setDenominator] = useState(7)
-  const [solid, setSolid] = useState(true)
-  const [spacing, setSpacing] = useState(1)
-  const [speed, setSpeed] = useState(5)
+  const [numerator, setNumerator] = useState(7)
+  const [denominator, setDenominator] = useState(8)
+  const [solid, setSolid] = useState(false)
+  const [quality, setQuality] = useState(6)
+  const [speed, setSpeed] = useState(3)
   const [foreground, setFG] = useState([200, 200, 250])
 
   // Track window width
@@ -29,7 +29,7 @@ function App() {
         Rose curves
       </h1>
       <div className="visualizer">
-        <P5Sketch numerator={numerator} denominator={denominator} spacing={spacing} speed={speed} foreground={foreground} background={[220, 220, 220]} radius={9} width={width} solid={solid} />
+        <P5Sketch numerator={numerator} denominator={denominator} quality={quality} speed={speed} foreground={foreground} background={[220, 220, 220]} radius={9} width={width} solid={solid} />
 
         <div className="parameters">
           <div className="equation">
@@ -42,10 +42,11 @@ function App() {
             <div className="math">&theta;)</div>
           </div>
           <label className="visualizer-input">
-            <span className="input-label">Solid</span>
-            <input type="checkbox" checked={solid} onChange={(e) => setSolid(!solid)} />
+            <span className="input-label">Style</span>
+            <Toggle on="Polygon" off="Dashed curves" click={() => setSolid(!solid)} active={solid} />
+            <span className="input-value"></span>
           </label>
-          <Slider change={(v) => setSpacing(v)} displayValue={spacing} min={1} max={10} default={spacing}>Spacing</Slider>
+          <Slider change={(v) => setQuality(v)} displayValue={quality} min={1} max={10} default={quality}>Quality</Slider>
           <Slider change={(v) => setSpeed(v)} displayValue={speed} min={0} max={10} default={speed}>Speed</Slider>
           <ColorPicker change={(v) => setFG(v)} initialValue={MathD.arrayToHex(foreground)}>Color</ColorPicker>
         </div>

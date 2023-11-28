@@ -29,3 +29,11 @@ export function ColorPicker(props) {
         </>
     )
 }
+export function Toggle(props) {
+    return (
+        <div className="toggle" onClick={props.click}>
+            <div className={"toggle-label toggle-label-on" + (props.active ? " toggle-active" : "")}>{props.on}</div>
+            <div className={"toggle-label toggle-label-off" + (!props.active ? " toggle-active" : "")}>{props.off}</div>
+        </div>
+    )
+}

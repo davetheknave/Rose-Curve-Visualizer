@@ -108,6 +108,37 @@
     margin-bottom: 0.25em;
 }
 
+.toggle {
+    display: flex;
+    /* width: 100%; */
+    position: relative;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.toggle-label {
+    background-color: #333;
+    padding: 5px 10px;
+}
+
+.toggle-label-on {
+    border-radius: 50px 0px 0px 50px;
+}
+
+.toggle-label-off {
+    border-radius: 0px 50px 50px 0px;
+}
+
+.toggle-active {
+    background-color: violet;
+}
+
 @media (max-width: 1300px) {
     .visualizer .parameters {
         width: 90%;
