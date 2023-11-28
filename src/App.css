@@ -46,7 +46,6 @@
 /* Parameters */
 
 .visualizer .parameters {
-    width: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -58,7 +57,7 @@
     align-items: center;
     width: 100%;
     margin-top: 0.5em;
-    font-size: larger;
+    font-size: 1.5em;
 }
 
 .visualizer-input .input-label {
@@ -78,11 +77,12 @@
 .equation {
     display: flex;
     align-items: center;
+    margin: 4vh;
 }
 
 .equation .math {
-    font-size: min(7em, 10vw);
-    font-style: italic;
+    font-size: min(10em, 10vw);
+    font-family: 'Literata', serif;
 }
 
 .fraction {
@@ -90,12 +90,13 @@
     flex-direction: column;
     align-items: center;
     width: 5em;
+    padding-top: 5%;
     margin: 0.25em;
 }
 
 .fraction input {
     width: 75%;
-    font-size: larger;
+    font-size: 200%;
     font-weight: bold;
     text-align: center;
 }

@@ -26,15 +26,15 @@ function App() {
   return (
     <>
       <div id="bg" />
-      <h1 id="title">
+      {/* <h1 id="title">
         Rose curves
-      </h1>
+      </h1> */}
       <div className="visualizer">
         <P5Sketch numerator={numerator} denominator={denominator} quality={quality} speed={speed} foreground={color} background={[220, 220, 220]} radius={9} width={width} polygon={polygon} />
 
         <div className="parameters">
           <div className="equation">
-            <div className="math">r = -sin (</div>
+            <div className="math">r = &minus;sin(</div>
             <div className="fraction">
               <Number change={(v) => numerator.current = (MathD.clamp(v, 1, 25))} displayValue={numerator} max="25" default={numerator.current} />
               <div className="fraction-bar" />
@@ -44,7 +44,7 @@ function App() {
           </div>
           <label className="visualizer-input">
             <span className="input-label">Style</span>
-            <Toggle on="Polygon" off="Dashed curves" click={() => polygon.current = !polygon.current} active={polygon.current} />
+            <Toggle on="Polygon" off="Dashed" click={() => polygon.current = !polygon.current} active={polygon.current} />
             <span className="input-value"></span>
           </label>
           <Slider change={(v) => quality.current = v} displayValue={quality.current} min={1} max={10} default={quality.current}>Quality</Slider>
