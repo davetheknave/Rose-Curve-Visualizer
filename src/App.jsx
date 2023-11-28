@@ -11,6 +11,7 @@ function App() {
   const quality = useRef(6);
   const speed = useRef(3);
   const color = useRef([250, 22, 110]);
+  // const [color2,setColor2] = useState([250,22,110]);
 
   // Track window width
   const [width, setWidth] = useState(window.innerWidth);
@@ -48,7 +49,10 @@ function App() {
           </label>
           <Slider change={(v) => quality.current = v} displayValue={quality.current} min={1} max={10} default={quality.current}>Quality</Slider>
           <Slider change={(v) => speed.current = v} displayValue={speed} min={0} max={10} default={speed.current}>Speed</Slider>
-          <ColorPicker change={(v) => color.current = v} default={MathD.arrayToHex(color.current)}>Color</ColorPicker>
+          <ColorPicker change={(v) => {
+            color.current = MathD.hexToArray(v);
+            // setColor2(v);
+          }} default={MathD.arrayToHex(color.current)}>Color</ColorPicker>
         </div>
       </div>
     </>

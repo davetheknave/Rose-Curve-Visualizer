@@ -41,16 +41,20 @@ function P5Sketch(props) {
                 let counter = 0;
                 let counterChanged = false;
                 let leafLength = 24;
+                // let leafColor = [255-props.foreground.current[0],255-props.foreground.current[1],255-props.foreground.current[2]];
                 for (let i = pos[1] + miniSize / 2 + size * 4 + 1; i < height; i += size * 4 + 1) {
-                    stemBuffer.rectMode(p5.CENTER);
                     let x = pos[0] + miniSize / 2 + offset;
                     let y = i;
+                    // Stem
+                    // stemBuffer.stroke(props.background)
                     if (random() > 0.5) {
                         stemBuffer.triangle(x, y + size, x + size, y - size, x - size, y - size);
                     }
                     else {
                         stemBuffer.triangle(x, y - size, x + size, y + size, x - size, y + size);
                     }
+                    // Leaves
+                    // stemBuffer.stroke(leafColor)
                     if (random() > 0.8) {
                         counter++;
                         counterChanged = true
@@ -82,7 +86,7 @@ function P5Sketch(props) {
         }
         p5.draw = () => {
             // Check if values have changed
-            if(lastNumerator != props.numerator.current || lastDenominator != props.denominator.current){
+            if (lastNumerator != props.numerator.current || lastDenominator != props.denominator.current) {
                 gcd = MathD.gcd(props.numerator.current, props.denominator.current);
                 radius = Math.max(
                     2,
