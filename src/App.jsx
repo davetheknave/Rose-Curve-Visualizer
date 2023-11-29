@@ -1,17 +1,30 @@
 import { useState, useEffect, useRef } from 'react'
 import P5Sketch from './rosecurve.jsx'
-import { Slider, Number, ColorPicker, Toggle } from './widgets.jsx';
+import { DSlider as Slider, Number, ColorPicker, Toggle } from './widgets.jsx';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import * as colors from '@mui/material/colors';
 import * as MathD from './utility.jsx';
 import './App.css'
 
 function App() {
+  const [theme,setTheme] = useState(createTheme({
+    palette: {
+      mode: 'dark',
+      primary: colors.grey,
+    },
+    typography: {
+      fontFamily: [
+        'Raleway', 'Inter', 'system-ui', 'Helvetica', 'Arial', 'sans-serif'
+      ].join(','),
+    }
+  }));
   const numerator = useRef(7);
   const denominator = useRef(8);
   const polygon = useRef(true);
   const quality = useRef(6);
   const speed = useRef(3);
   const color = useRef([250, 22, 110]);
-  // const [color2,setColor2] = useState([250,22,110]);
 
   // Track window width
   const [width, setWidth] = useState(window.innerWidth);
@@ -22,39 +35,63 @@ function App() {
       window.removeEventListener("resize", handleResizeWindow);
     }
   });
+  const setColor = (newColor) => {
+    color.current = MathD.hexToArray(newColor);
+    // setTheme(createTheme({
+    //   palette: {
+    //     mode: 'dark',
+    //     primary: {main:newColor},
+    //   },
+    //   typography: {
+    //     fontFamily: [
+    //       'Raleway', 'Inter', 'system-ui', 'Helvetica', 'Arial', 'sans-serif'
+    //     ].join(','),
+    //   }
+    // }))
+  }
 
   return (
     <>
-      <div id="bg" />
-      {/* <h1 id="title">
-        Rose curves
-      </h1> */}
-      <div className="visualizer">
-        <P5Sketch numerator={numerator} denominator={denominator} quality={quality} speed={speed} foreground={color} background={[220, 220, 220]} radius={9} width={width} polygon={polygon} />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div id="bg" />
+        <div className="visualizer">
+          <P5Sketch numerator={numerator} denominator={denominator} quality={quality} speed={speed} foreground={color} background={[220, 220, 220]} radius={9} width={width} polygon={polygon} />
 
-        <div className="parameters">
-          <div className="equation">
-            <div className="math">r = &minus;sin(</div>
-            <div className="fraction">
-              <Number change={(v) => numerator.current = (MathD.clamp(v, 1, 25))} displayValue={numerator} max="25" default={numerator.current} />
-              <div className="fraction-bar" />
-              <Number change={(v) => denominator.current = (MathD.clamp(v, 1, 25))} displayValue={denominator} max="25" default={denominator.current} />
+          <div className="parameters">
+            <div className="equation">
+              <div className="math">r = &minus;sin(</div>
+              <div className="fraction">
+                <Number change={(v) => numerator.current = (MathD.clamp(v, 1, 25))} displayValue={numerator} max="25" default={numerator.current} />
+                <div className="fraction-bar" />
+                <Number change={(v) => denominator.current = (MathD.clamp(v, 1, 25))} displayValue={denominator} max="25" default={denominator.current} />
+              </div>
+              <div className="math">&theta;)</div>
             </div>
-            <div className="math">&theta;)</div>
+            <Toggle
+              name="Style"
+              firstName="Polygon"
+              secondName="Dashed"
+              valueRef={polygon}
+            />
+            <Slider
+              name="Quality"
+              valueRef={quality}
+              min={1}
+              max={10}
+              marks={[{ value: 1, label: "Low" }, { value: 10, label: "High" }]}
+            />
+            <Slider
+              name="Speed"
+              valueRef={speed}
+              min={-10}
+              max={10}
+              marks={[{ value: 0, label: "0" }, { value: -10, label: "-10" }, { value: 10, label: "+10" }]}
+            />
+            <ColorPicker change={setColor} default={MathD.arrayToHex(color.current)}>Color</ColorPicker>
           </div>
-          <label className="visualizer-input">
-            <span className="input-label">Style</span>
-            <Toggle on="Polygon" off="Dashed" click={() => polygon.current = !polygon.current} active={polygon.current} />
-            <span className="input-value"></span>
-          </label>
-          <Slider change={(v) => quality.current = v} displayValue={quality.current} min={1} max={10} default={quality.current}>Quality</Slider>
-          <Slider change={(v) => speed.current = v} displayValue={speed} min={0} max={10} default={speed.current}>Speed</Slider>
-          <ColorPicker change={(v) => {
-            color.current = MathD.hexToArray(v);
-            // setColor2(v);
-          }} default={MathD.arrayToHex(color.current)}>Color</ColorPicker>
         </div>
-      </div>
+      </ThemeProvider>
     </>
   )
 }
