@@ -1,7 +1,7 @@
 # Rose Curve Visualizer
 A mesmerizing garden of dynamic, animated rose curves, inviting exploration with playful and intuitive controls.
 
-[View now](davetheknave.github.io/Rose-Curve-Visualizer)
+[View now](https://davetheknave.github.io/Rose-Curve-Visualizer)
 ## Summary
 This is an online art project created to display the beauty hidden in the world of mathematics. It's intended to be accessible to all, including those who don't think of themselves as being good at math. Its controls encourage exploration; even subtle adjustments can create big changes.
 ## Instructions
