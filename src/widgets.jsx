@@ -3,6 +3,8 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Slider from '@mui/material/Slider';
 import * as MathD from './utility.jsx';
+import * as colors from '@mui/material/colors';
+
 
 export function DSlider(props) {
     const [value, setValue] = useState(props.default)
@@ -27,6 +29,38 @@ export function DSlider(props) {
         </>
     );
 }
+export function ShadeSelector(props) {
+    const values = {
+        4: 'A100',
+        3: 'A200',
+        2: 'A400',
+        1: 'A700',
+    }
+    const marks = [];
+    for (let v in values) {
+        marks.push({ value: parseInt(v), label: values[v] })
+    }
+    const [value, setValue] = useState(2);
+    const handleChange = (_, v) => {
+        setValue(v)
+        props.change(values[v]);
+    }
+    return (
+        <Slider
+            className="shadeSelector"
+            aria-label="Shade"
+            step={null}
+            min={1}
+            max={4}
+            marks={marks}
+            track={false}
+            value={value}
+            orientation="vertical"
+            onChange={handleChange}
+        />
+    )
+}
+
 export function Number(props) {
     const [value, setValue] = useState(props.default)
     return (
@@ -40,16 +74,36 @@ export function Number(props) {
     );
 }
 export function ColorPicker(props) {
-    const [value, setValue] = useState(props.default)
+    const [value, setValue] = useState(colors.pink)
+    const handleChange = (_, v) => {
+        if (v !== null) {
+            props.change(v)
+            setValue(v);
+        }
+    }
+    const buttons = [];
+    for (let c in colors) {
+        if (c === "common") {
+            continue;
+        }
+        buttons.push((
+            <ToggleButton key={c} aria-label={c} value={colors[c]}>
+                {c.split(/(?=[A-Z])/).join(" ")}
+            </ToggleButton>
+        ))
+    }
     return (
         <>
-            <label className="colorPicker visualizer-input">
-                <span>{props.children}</span>
-                <input type="color" onInput={(v) => {
-                    props.change(v.target.value);
-                    setValue(v.target.value);
-                }} value={value} />
-            </label>
+            <ToggleButtonGroup
+                className="colorPicker"
+                aria-label={props.name}
+                exclusive
+                value={value}
+                onChange={handleChange}
+                color="primary"
+            >
+                {buttons}
+            </ToggleButtonGroup>
         </>
     )
 }

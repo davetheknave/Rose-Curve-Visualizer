@@ -1,30 +1,37 @@
 import { useState, useEffect, useRef } from 'react'
 import P5Sketch from './rosecurve.jsx'
-import { DSlider as Slider, Number, ColorPicker, Toggle } from './widgets.jsx';
+import { DSlider as Slider, Number, ColorPicker, Toggle, ShadeSelector } from './widgets.jsx';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import * as colors from '@mui/material/colors';
 import * as MathD from './utility.jsx';
+import Button from '@mui/material/Button';
 import './App.css'
 
 function App() {
-  const [theme,setTheme] = useState(createTheme({
-    palette: {
-      mode: 'dark',
-      primary: colors.grey,
-    },
-    typography: {
-      fontFamily: [
-        'Raleway', 'Inter', 'system-ui', 'Helvetica', 'Arial', 'sans-serif'
-      ].join(','),
-    }
-  }));
+  function makeTheme(themeColor){
+    return createTheme({
+      palette: {
+        mode: 'dark',
+        primary: themeColor,
+      },
+      typography: {
+        fontFamily: [
+          'Raleway', 'Inter', 'system-ui', 'Helvetica', 'Arial', 'sans-serif'
+        ].join(','),
+      }  
+    })
+  }
+  const [theme, setTheme] = useState(makeTheme(colors.pink));
   const numerator = useRef(7);
   const denominator = useRef(8);
   const polygon = useRef(true);
   const quality = useRef(6);
   const speed = useRef(3);
-  const color = useRef([250, 22, 110]);
+  const [shade, setShade] = useState("A400");
+  const [color, setColor] = useState(colors.pink);
+  const [hex, setHex] = useState(colors.pink[shade]);
+  const [showColors, setShowColors] = useState(false)
 
   // Track window width
   const [width, setWidth] = useState(window.innerWidth);
@@ -35,19 +42,14 @@ function App() {
       window.removeEventListener("resize", handleResizeWindow);
     }
   });
-  const setColor = (newColor) => {
-    color.current = MathD.hexToArray(newColor);
-    // setTheme(createTheme({
-    //   palette: {
-    //     mode: 'dark',
-    //     primary: {main:newColor},
-    //   },
-    //   typography: {
-    //     fontFamily: [
-    //       'Raleway', 'Inter', 'system-ui', 'Helvetica', 'Arial', 'sans-serif'
-    //     ].join(','),
-    //   }
-    // }))
+  const changeColor = (newColor) => {
+    setColor(newColor);
+    setHex(MathD.hexToArray(newColor[shade]));
+    setTheme(makeTheme(newColor))
+  }
+  const changeShade = (newShade) => {
+    setShade(newShade);
+    setHex(color[newShade])
   }
 
   return (
@@ -56,9 +58,9 @@ function App() {
         <CssBaseline />
         <div id="bg" />
         <div className="visualizer">
-          <P5Sketch numerator={numerator} denominator={denominator} quality={quality} speed={speed} foreground={color} background={[220, 220, 220]} radius={9} width={width} polygon={polygon} />
+          <P5Sketch numerator={numerator} denominator={denominator} quality={quality} speed={speed} foreground={hex} background={[220, 220, 220]} radius={9} width={width} polygon={polygon} />
 
-          <div className="parameters">
+          <div className={"parameters" + (showColors ? " hidden" : "")}>
             <div className="equation">
               <div className="math">r = &minus;sin(</div>
               <div className="fraction">
@@ -88,8 +90,12 @@ function App() {
               max={10}
               marks={[{ value: 0, label: "0" }, { value: -10, label: "-10" }, { value: 10, label: "+10" }]}
             />
-            <ColorPicker change={setColor} default={MathD.arrayToHex(color.current)}>Color</ColorPicker>
           </div>
+          <div className={"colorInputs" + (showColors ? "" : " hidden")}>
+            <ColorPicker change={changeColor} />
+            <ShadeSelector change={changeShade} />
+          </div>
+          <Button variant="outlined" onClick={() => setShowColors(!showColors)}>Colors</Button>
         </div>
       </ThemeProvider>
     </>

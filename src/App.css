@@ -49,6 +49,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* max-width: 50%; */
+}
+.visualizer :is(.parameters, .colorInputs){
+    margin: 1em;
+    height: 500px;
 }
 
 .visualizer-input {
@@ -77,7 +82,7 @@
 .equation {
     display: flex;
     align-items: center;
-    margin: 4vh;
+    /* margin: 4vh; */
 }
 
 .equation .math {
@@ -108,10 +113,37 @@
     margin-top: 0.25em;
     margin-bottom: 0.25em;
 }
-
+/*
+Colors
+*/
+.colorInputs {
+    margin: 1em;
+    display: flex;
+    justify-content: center;
+}
+.colorPicker {
+    display: flex;
+    flex-wrap: wrap;
+    width: min(500px,100%);
+    height: 100%;
+}
+.colorPicker button {
+    border-left-color: rgba(255, 255, 255, 0.12) !important;
+    width: 25%;
+    text-wrap: wrap;
+    overflow-wrap: break-word;
+    padding: 5px;
+    min-height: 4em;
+}
+.hidden {
+    display: none !important;
+}
 @media (max-width: 1300px) {
     .visualizer .parameters {
         width: 90%;
+    }
+    .colorInputs {
+        display: flex;
     }
 }
 

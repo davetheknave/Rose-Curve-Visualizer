@@ -107,8 +107,8 @@ function P5Sketch(props) {
 
             roseBuffer.clear();
             p5.clear();
-            roseBuffer.stroke(props.foreground.current);
-            p5.stroke(props.foreground.current);
+            roseBuffer.stroke(props.foreground);
+            p5.stroke(props.foreground);
             roseBuffer.noFill();
             p5.noFill();
             roseBuffer.strokeWeight(radius);
