@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 192 192" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <rect x="-2.926" y="-1.48" width="195.543" height="195.086" style="fill:rgb(51,51,51);"/>
+    <g transform="matrix(0.671273,0,0,0.687484,9.54345,-1.90767)">
+        <ellipse cx="82.97" cy="97.67" rx="64.695" ry="63.169" style="fill:none;stroke:rgb(230,230,230);stroke-width:15.33px;"/>
+    </g>
+    <g transform="matrix(0.671273,0,0,0.687484,83.7325,28.8536)">
+        <ellipse cx="82.97" cy="97.67" rx="64.695" ry="63.169" style="fill:none;stroke:rgb(230,230,230);stroke-width:15.33px;"/>
+    </g>
+    <g transform="matrix(0.671273,0,0,0.687484,-3.12296,28.8536)">
+        <ellipse cx="82.97" cy="97.67" rx="64.695" ry="63.169" style="fill:none;stroke:rgb(230,230,230);stroke-width:15.33px;"/>
+    </g>
+    <g transform="matrix(0.671273,0,0,0.687484,40.3047,72.2813)">
+        <ellipse cx="82.97" cy="97.67" rx="64.695" ry="63.169" style="fill:none;stroke:rgb(230,230,230);stroke-width:15.33px;"/>
+    </g>
+    <g transform="matrix(0.671273,0,0,0.687484,40.3047,-14.5741)">
+        <ellipse cx="82.97" cy="97.67" rx="64.695" ry="63.169" style="fill:none;stroke:rgb(230,230,230);stroke-width:15.33px;"/>
+    </g>
+    <g transform="matrix(0.671273,0,0,0.687484,71.066,59.6149)">
+        <ellipse cx="82.97" cy="97.67" rx="64.695" ry="63.169" style="fill:none;stroke:rgb(230,230,230);stroke-width:15.33px;"/>
+    </g>
+    <g transform="matrix(0.671273,0,0,0.687484,9.54345,59.6149)">
+        <ellipse cx="82.97" cy="97.67" rx="64.695" ry="63.169" style="fill:none;stroke:rgb(230,230,230);stroke-width:15.33px;"/>
+    </g>
+    <g transform="matrix(0.671273,0,0,0.687484,71.066,-1.90767)">
+        <ellipse cx="82.97" cy="97.67" rx="64.695" ry="63.169" style="fill:none;stroke:rgb(230,230,230);stroke-width:15.33px;"/>
+    </g>
+</svg>
