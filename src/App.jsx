@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef } from 'react'
-import P5Sketch from './rosecurve.jsx'
-import { DSlider as Slider, Number, ColorPicker, Toggle, ShadeSelector } from './widgets.jsx';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as colors from '@mui/material/colors';
-import * as MathD from './utility.jsx';
 import Button from '@mui/material/Button';
+import P5Sketch from './rosecurve.jsx'
+import * as MathD from './utility.jsx';
+import { DSlider as Slider, Number, ColorPicker, Toggle, ShadeSelector } from './widgets.jsx';
 import './App.css'
 
 function App() {
-  function makeTheme(themeColor){
+  function makeTheme(themeColor) {
     return createTheme({
       palette: {
         mode: 'dark',
@@ -19,7 +19,7 @@ function App() {
         fontFamily: [
           'Raleway', 'Inter', 'system-ui', 'Helvetica', 'Arial', 'sans-serif'
         ].join(','),
-      }  
+      }
     })
   }
   const [theme, setTheme] = useState(makeTheme(colors.pink));
@@ -59,43 +59,57 @@ function App() {
         <div id="bg" />
         <div className="visualizer">
           <P5Sketch numerator={numerator} denominator={denominator} quality={quality} speed={speed} foreground={hex} background={[220, 220, 220]} radius={9} width={width} polygon={polygon} />
+          <div className="controls">
 
-          <div className={"parameters" + (showColors ? " hidden" : "")}>
-            <div className="equation">
-              <div className="math">r = &minus;sin(</div>
-              <div className="fraction">
-                <Number change={(v) => numerator.current = (MathD.clamp(v, 1, 25))} displayValue={numerator} max="25" default={numerator.current} />
-                <div className="fraction-bar" />
-                <Number change={(v) => denominator.current = (MathD.clamp(v, 1, 25))} displayValue={denominator} max="25" default={denominator.current} />
+            <div className={"parameters" + (showColors ? " hidden" : "")}>
+              <div className="equation">
+                <div className="math">r = &minus;sin(</div>
+                <div className="fraction">
+                  <Number
+                    change={(v) => numerator.current = (MathD.clamp(v, 1, 25))}
+                    displayValue={numerator}
+                    max="25"
+                    default={numerator.current}
+                    orientation="bottom"
+                  />
+                  <div className="fraction-bar" />
+                  <Number
+                    change={(v) => denominator.current = (MathD.clamp(v, 1, 25))}
+                    displayValue={denominator}
+                    max="25"
+                    default={denominator.current}
+                    orientation="top"
+                  />
+                </div>
+                <div className="math">&theta;)</div>
               </div>
-              <div className="math">&theta;)</div>
+              <Toggle
+                name="Style"
+                firstName="Polygon"
+                secondName="Dashed"
+                valueRef={polygon}
+              />
+              <Slider
+                name="Quality"
+                valueRef={quality}
+                min={1}
+                max={10}
+                marks={[{ value: 1, label: "Low" }, { value: 10, label: "High" }]}
+              />
+              <Slider
+                name="Speed"
+                valueRef={speed}
+                min={-10}
+                max={10}
+                marks={[{ value: 0, label: "0" }, { value: -10, label: "-10" }, { value: 10, label: "+10" }]}
+              />
             </div>
-            <Toggle
-              name="Style"
-              firstName="Polygon"
-              secondName="Dashed"
-              valueRef={polygon}
-            />
-            <Slider
-              name="Quality"
-              valueRef={quality}
-              min={1}
-              max={10}
-              marks={[{ value: 1, label: "Low" }, { value: 10, label: "High" }]}
-            />
-            <Slider
-              name="Speed"
-              valueRef={speed}
-              min={-10}
-              max={10}
-              marks={[{ value: 0, label: "0" }, { value: -10, label: "-10" }, { value: 10, label: "+10" }]}
-            />
+            <div className={"colorInputs" + (showColors ? "" : " hidden")}>
+              <ColorPicker change={changeColor} />
+              <ShadeSelector change={changeShade} />
+            </div>
+            <Button className="colorButton" variant="outlined" onClick={() => setShowColors(!showColors)}>Colors</Button>
           </div>
-          <div className={"colorInputs" + (showColors ? "" : " hidden")}>
-            <ColorPicker change={changeColor} />
-            <ShadeSelector change={changeShade} />
-          </div>
-          <Button variant="outlined" onClick={() => setShowColors(!showColors)}>Colors</Button>
         </div>
       </ThemeProvider>
     </>

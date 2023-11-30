@@ -13,6 +13,7 @@
     visibility: visible;
     pointer-events: none;
 }
+
 @keyframes bg-animation {
     0% { transform: translate(0,0) }
     10% { transform: translate(-5%,-5%) }
@@ -36,24 +37,39 @@
     align-items: center;
 }
 
+.visualizer .react-p5-wrapper {
+    flex-basis: 400px;
+}
+
 .visualizer canvas {
-    /* max-width: 800px !important; */
     max-height: 400px !important;
-    /* background: firebrick; */
     border-bottom: 2px solid rgb(220, 220, 220);
 }
 
 /* Parameters */
 
 .visualizer .parameters {
+    /* display: flex; */
+    /* flex-direction: column;
+    align-items: center; */
+}
+
+.visualizer .controls {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* max-width: 50%; */
+    width: 100%;
+    height: 40%;
+    position: relative;
+    padding-left: 1em;
+    padding-right: 1em;
 }
-.visualizer :is(.parameters, .colorInputs){
+
+.visualizer :is(.parameters, .colorInputs) {
     margin: 1em;
-    height: 500px;
+    flex-basis: auto;
+    position: absolute;
+    height: 100%;
 }
 
 .visualizer-input {
@@ -70,63 +86,79 @@
     text-align: left;
 }
 
+.slider .input {
+    width: 66%;
+}
+
 .visualizer-input .input-value {
     width: 25%;
     text-align: right;
 }
 
-.slider input {
-    width: 50%;
-}
+/*
+Equation
+*/
 
 .equation {
     display: flex;
     align-items: center;
-    /* margin: 4vh; */
-}
-
-.equation .math {
-    font-size: min(10em, 10vw);
+    justify-content: center;
     font-family: 'Literata', serif;
+    margin-bottom: 1.5rem;
+    font-size: min(10em, 10vw);
 }
 
 .fraction {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 5em;
-    padding-top: 5%;
-    margin: 0.25em;
+    min-width: 140px;
+    font-size: 2ch;
+    line-height: 1;
+    padding-top: 0.4ch;
 }
 
-.fraction input {
-    width: 75%;
-    font-size: 200%;
+.fraction .MuiSlider-root {
+    padding: 0;
+    /* width: 150%; */
+}
+
+.fraction .input-value {
+    font-size: 1ch;
     font-weight: bold;
     text-align: center;
+    margin-bottom: 0.4ch;
 }
 
 .fraction-bar {
-    width: 100%;
-    height: 3px;
+    width: 2ch;
+    height: 2px;
     background-color: white;
-    margin-top: 0.25em;
-    margin-bottom: 0.25em;
+    margin-top: 0.05em;
+    margin-bottom: 0.05em;
 }
+
 /*
 Colors
 */
 .colorInputs {
     margin: 1em;
+    padding-top: 2em;
     display: flex;
     justify-content: center;
 }
+
 .colorPicker {
     display: flex;
     flex-wrap: wrap;
-    width: min(500px,100%);
+    width: min(500px, 100%);
     height: 100%;
 }
+
+.shadeSelector {
+    height: 100%;
+} 
+
 .colorPicker button {
     border-left-color: rgba(255, 255, 255, 0.12) !important;
     width: 25%;
@@ -135,13 +167,21 @@ Colors
     padding: 5px;
     min-height: 4em;
 }
-.hidden {
-    display: none !important;
+
+.colorButton {
+    align-self: flex-start;
 }
+
+.hidden {
+    /* display: none !important; */
+    visibility: hidden;
+}
+
 @media (max-width: 1300px) {
     .visualizer .parameters {
         width: 90%;
     }
+
     .colorInputs {
         display: flex;
     }
