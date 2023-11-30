@@ -68,7 +68,7 @@ function App() {
                   <Number
                     change={(v) => numerator.current = (MathD.clamp(v, 1, 25))}
                     displayValue={numerator}
-                    max="25"
+                    max={25}
                     default={numerator.current}
                     orientation="bottom"
                   />
@@ -76,7 +76,7 @@ function App() {
                   <Number
                     change={(v) => denominator.current = (MathD.clamp(v, 1, 25))}
                     displayValue={denominator}
-                    max="25"
+                    max={25}
                     default={denominator.current}
                     orientation="top"
                   />
